@@ -270,3 +270,10 @@ It should be noted that your second *init()* call will create fields for all bou
 page content as well, not only on the newly loaded content. Therefore, main content fields will be reachable 
 from the new model. However, the reverse is not true, so you cannot reference newly added fields from your 
 main model.
+
+To do
+=====
+
+1. Allow installation through Bower.
+2. Test embedded Javascript in AJAX responses.
+3. Allow proper testing of both autoloader methods in a single suite.
