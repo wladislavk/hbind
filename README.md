@@ -78,10 +78,11 @@ called something like *models.js* and put your model or models there. Methods th
 manipulation should not be located in that file.
 
 Every model should have **model mirrors**. A mirror is a property whose name is identical with the value of 
-*data-hbind* or *data-hgroup* attribute of at least one loaded element. A mirror contains one or more **action
-properties**, whose names are chosen arbitrarily. The best practice is to name action properties as verbs 
-corresponding to what the action should do. If a model mirror contains more than one action property, all  
-action methods are fired when the event happens.
+*data-hbind* or *data-hgroup* attribute of at least one loaded element. 
+
+A mirror contains one or more **action properties**, whose names are chosen arbitrarily. The best practice is 
+to name action properties as verbs corresponding to what the action should do. If a model mirror contains more 
+than one action property, all action methods are fired when the event happens.
 
 Action properties must have one **action method** that is fired on event specified in *data-hevent* (or on 
 *change* by default). This method takes one optional argument that contains the *event* object from the BOM. 
@@ -248,7 +249,7 @@ AJAX Response
 
 If you need to bind some elements located inside the AJAX response, you can do so using the same syntax as 
 for usual bindings. However, you would want to place mirrors for newly bound elements on a new model, and do 
-*hBind.use()* on that model. For this, you need an additional *<script>* tag inside your response, and that
+*hBind.use()* on that model. For this, you need an additional ```<script>``` tag inside your response, and that
 will not parse as Javascript by default.
 
 To parse a script tag inside an AJAX response, you can use one more attribute called *data-hscript*. The value 
