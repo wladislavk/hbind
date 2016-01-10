@@ -16,7 +16,7 @@ You should note though that this is a very minimalistic library with a set of li
 - hBind is *not* a way to increase Javascript performance. Every time you refer to a field, the actual DOM is
   queried.
 - hBind is *not* designed for compatibility with older browsers. For example, it uses 
-  ```document.querySelectorAll()```.
+  the ```document.querySelectorAll()``` property.
 
 Installation
 ============
