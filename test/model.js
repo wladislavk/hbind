@@ -42,21 +42,21 @@ var testModel = {
         changeText: {
             boundFields: ['boundDiv'],
             action: function() {
-                hBind.fields.boundDiv.innerHTML = 'changed by selector';
+                hBind.fields.boundDiv.innerHTML = 'option ' + hBind.currentElement.value + ' selected';
             }
         }
     },
     checkboxGroup: {
         changeText: {
             action: function() {
-                hBind.fields.boundDiv.innerHTML = 'checkbox ' + hBind.currentElement.value + ' pressed';
+                hBind.fields.boundDiv.innerHTML = 'checkbox ' + hBind.currentElement.dataset.hindex + ' pressed';
             }
         }
     },
     ajaxButton: {
         sendRequest: {
             action: function() {
-                hBind.makeAjaxCall('myRequest', 'http://someurl.com');
+                hBind.makeAjaxCall('myRequest', 'test_ajax.html');
             }
         }
     }

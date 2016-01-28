@@ -1,98 +1,29 @@
-/*jshint -W061 */
-eval(require('fs').readFileSync('./hbind.js', 'utf8'));
-var mocks = require('./dom_mocks');
-for (var key in mocks) {
-    if (mocks.hasOwnProperty(key)) {
-        global[key] = mocks[key];
-    }
-}
-eval(require('fs').readFileSync('./test/model.js', 'utf8'));
-var assert = require('assert');
-/*jshint -W117 */
-suite('Basic', function() {
-    setup(function() {
-        this.div = new Element('div', {
-            'hbind': 'boundDiv'
-        }, {
-            'innerHTML': 'some text'
-        });
-        this.button = new Element('button', {
-            'hbind': 'boundButton',
-            'hevent': 'click'
-        });
-        this.button2 = new Element('button', {
-            'hbind': 'boundButton2',
-            'hevent': 'click'
-        });
-        this.selector = new Element('select', {
-            'hbind': 'boundSelect'
-        });
-        this.checkboxGroup1 = new Element('checkbox', {
-            'hgroup': 'checkboxGroup',
-            'hindex': '1',
-            'hevent': 'click'
-        }, {
-            'value': '1'
-        });
-        this.checkboxGroup2 = new Element('checkbox', {
-            'hgroup': 'checkboxGroup',
-            'hindex': '2',
-            'hevent': 'click'
-        }, {
-            'value': '2'
-        });
-        this.autoloadedDiv = new Element('div', {
-            'hbind': 'autoloadedDiv'
-        }, {
-            'innerHTML': 'this text will never be seen'
-        });
-        this.autoloadedDiv2 = new Element('div', {
-            'hbind': 'autoloadedDiv2'
-        }, {
-            'innerHTML': 'this text will never be seen'
-        });
-        this.ajaxTargetDiv = new Element('div', {
-            'hbind': 'ajaxTargetDiv'
-        }, {
-            'innerHTML': 'this text will be overwritten'
-        });
-        this.ajaxButton = new Element('button', {
-            'hbind': 'ajaxButton',
-            'hevent': 'click'
-        });
-        this.ajaxScriptTag = new Element('script', {
-            'hscript': 'myScript'
-        }, {
-            'innerHTML': 'var testVar = 1;'
-        });
-        hBind.init();
-        hBind.use(testModel);
-        window.load();
-    });
-    test('fields init', function() {
-        assert.equal(hBind.fields.boundDiv.tagName, 'div');
-        assert.equal(hBind.fields.boundButton.dataset.hevent, 'click');
-    });
-    test('event added', function() {
-        assert.equal(hBind.fields.boundDiv.innerHTML, 'some text');
-        hBind.fields.boundButton.listeners.click();
-        assert.equal(hBind.fields.boundDiv.innerHTML, 'changed text');
-        hBind.fields.boundSelect.listeners.change();
-        assert.equal(hBind.fields.boundDiv.innerHTML, 'changed by selector');
-    });
-    test('group binding', function() {
-        hBind.groupFields.checkboxGroup[1].listeners.click();
-        assert.equal(hBind.fields.boundDiv.innerHTML, 'checkbox 1 pressed');
-        hBind.groupFields.checkboxGroup[2].listeners.click();
-        assert.equal(hBind.fields.boundDiv.innerHTML, 'checkbox 2 pressed');
-    });
-    test('autoloader property', function () {
-        assert.equal(hBind.fields.autoloadedDiv.innerHTML, 'autoloaded text');
-    });
+QUnit.test('Event added', function (assert) {
+    assert.equal(document.getElementById('bound-div').innerHTML, 'Some text', 'Initial div value');
+    document.getElementById('bound-button').click();
+    assert.equal(document.getElementById('bound-div').innerHTML, 'changed text', 'Div value after button click');
+    document.getElementById('selector').value = '2';
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("change", false, true);
+    document.getElementById('selector').dispatchEvent(evt);
+    assert.equal(document.getElementById('bound-div').innerHTML, 'option 2 selected', 'Div value after selector change');
+});
+QUnit.test('Group binding', function (assert) {
+    document.getElementById('first-checkbox').click();
+    assert.equal(document.getElementById('bound-div').innerHTML, 'checkbox 1 pressed', 'Div value after checkbox 1 pressed');
+    document.getElementById('second-checkbox').click();
+    assert.equal(document.getElementById('bound-div').innerHTML, 'checkbox 2 pressed', 'Div value after checkbox 2 pressed');
+});
+QUnit.test('autoloader property', function (assert) {
+    assert.equal(document.getElementById('autoloaded-div').innerHTML, 'autoloaded text', 'Autoloader property fired on window.load');
+});
     //TODO: enable autoloading when both autoloader and initialLoad are turned on
-    /*test('autoload through initially loaded', function () {
-        assert.equal(hBind.fields.autoloadedDiv2.innerHTML, 'autoloaded as well');
-    });*/
+/*QUnit.test('autoload through initially loaded', function (assert) {
+    assert.equal(hBind.fields.autoloadedDiv2.innerHTML, 'autoloaded as well', 'Autoloader through initiallyLoaded attribute');
+});*/
+
+/*
+suite('Ajax', function() {
     test('ajax request', function () {
         ajaxVars.setResponse({
             'status': 200,
@@ -112,4 +43,4 @@ suite('Basic', function() {
         hBind.fields.ajaxButton.listeners.click();
         assert.equal(hBind.fields.ajaxTargetDiv.innerHTML, 'this request generated an error');
     });
-});
+});*/

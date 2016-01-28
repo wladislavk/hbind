@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>hBind test page</title>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.20.0.css">
+</head>
+<body>
+<div id="main-div">
+    <div id="bound-div" data-hbind="boundDiv">Some text</div>
+    <div id="button-div">
+        <button id="bound-button" data-hbind="boundButton" data-hevent="click">First button</button>
+        <button id="bound-button2" data-hbind="boundButton2" data-hevent="click">Second button</button>
+        <button id="ajax-button" data-hbind="ajaxButton" data-hevent="click">Ajax button</button>
+    </div>
+    <form id="test-form">
+        <div id="selector-div">
+            <select name="selector" id="selector" data-hbind="boundSelect">
+                <option value="1">First option</option>
+                <option value="2">Second option</option>
+            </select>
+            <label for="selector">Some selector</label>
+        </div>
+        <div id="checkbox-div">
+            <div>
+                <input type="checkbox" name="first-checkbox" id="first-checkbox" value="1" data-hgroup="checkboxGroup" data-hindex="1" data-hevent="click" />
+                <label for="first-checkbox">First checkbox</label>
+            </div>
+            <div>
+                <input type="checkbox" name="second-checkbox" id="second-checkbox" value="1" data-hgroup="checkboxGroup" data-hindex="2" data-hevent="click" />
+                <label for="second-checkbox">Second checkbox</label>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="autoloaded-div" data-hbind="autoloadedDiv">This text will never be seen</div>
+<div id="autoloaded-div-2" data-hbind="autoloadedDiv2">This text will never be seen as well</div>
+<div id="ajax-target-div" data-hbind="ajax-target-div">This text will be overwritten</div>
+
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="http://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+<script src="../hbind.js"></script>
+<script src="model.js"></script>
+<script>
+    hBind.init();
+    hBind.use(testModel);
+</script>
+<script src="hbind_test.js"></script>
+</body>
+</html>
